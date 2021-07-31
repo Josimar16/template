@@ -3,6 +3,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../components/Form/Input';
+import { GetServerSidePropsContext } from 'next';
+import { useAuth } from '../hooks/useAuth';
+import { withSSRGuest } from '../utils/withSSRGuest';
 
 type SignInFormData = {
   email: string;
@@ -15,12 +18,14 @@ const signInFormSchema = yup.object().shape({
 });
 
 export default function SignIn() {
+  const { signIn } = useAuth();
+  
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(signInFormSchema)
   });
 
   const handleSignIn: SubmitHandler<SignInFormData> = async (data) => {
-
+    await signIn(data);
   }
 
   return (
@@ -63,7 +68,7 @@ export default function SignIn() {
         <Button
           type="submit"
           marginTop="6"
-          colorScheme="pink"
+          colorScheme="green"
           size="lg"
           isLoading={formState.isSubmitting}
         >
@@ -73,3 +78,9 @@ export default function SignIn() {
     </Flex>
   )
 }
+
+export const getServerSideProps = withSSRGuest(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {}
+  }
+});

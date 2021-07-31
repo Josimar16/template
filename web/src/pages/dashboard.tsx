@@ -1,7 +1,11 @@
 import { Flex, SimpleGrid, Box, Text, theme } from '@chakra-ui/react';
+import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import React from 'react';
 
+import { Can } from "../components/Can";
+import { setupAPIClient } from "../services/api";
+import { withSSRAuth } from "../utils/withSSRAuth";
 import { Header } from '../components/Header';
 import { Sidebar } from '../components/Sidebar';
 
@@ -74,42 +78,51 @@ export default function Dashboard() {
         paddingX="6"
       >
         <Sidebar />
-
-        <SimpleGrid flex="1" gap="4" minChildWidth="320px" alignItems="flex-start">
-          <Box
-            padding={["6", "8"]}
-            backgroundColor="gray.800"
-            borderRadius={8}
-            paddingBottom="4"
-          >
-            <Text fontSize="lg" marginBottom="4">
-              Inscritos da semana
-            </Text>
-            <Chart
-              type="area"
-              height={160}
-              options={options}
-              series={series}
-            />
-          </Box>
-          <Box
-            padding={["6", "8"]}
-            backgroundColor="gray.800"
-            borderRadius={8}
-            paddingBottom="4"
-          >
-            <Text fontSize="lg" marginBottom="4">
-              Taxa da abertura
-            </Text>
-            <Chart
-              type="area"
-              height={160}
-              options={options}
-              series={series}
-            />
-          </Box>
-        </SimpleGrid>
+        <Can permissions={['metrics.list']} roles={['administrator']}>
+          <SimpleGrid flex="1" gap="4" minChildWidth="320px" alignItems="flex-start">
+            <Box
+              padding={["6", "8"]}
+              backgroundColor="gray.800"
+              borderRadius={8}
+              paddingBottom="4"
+            >
+              <Text fontSize="lg" marginBottom="4">
+                Inscritos da semana
+              </Text>
+              <Chart
+                type="area"
+                height={160}
+                options={options}
+                series={series}
+              />
+            </Box>
+            <Box
+              padding={["6", "8"]}
+              backgroundColor="gray.800"
+              borderRadius={8}
+              paddingBottom="4"
+            >
+              <Text fontSize="lg" marginBottom="4">
+                Taxa da abertura
+              </Text>
+              <Chart
+                type="area"
+                height={160}
+                options={options}
+                series={series}
+              />
+            </Box>
+          </SimpleGrid>
+        </Can>
       </Flex>
     </Flex>
   );
 }
+
+export const getServerSideProps = withSSRAuth(async (context: GetServerSidePropsContext) => {
+  const apiClient = setupAPIClient(context);
+
+  return {
+    props: {}
+  }
+});

@@ -74,7 +74,7 @@ export default function User({ users }: UserProps) {
                 as="a"
                 size="sm"
                 fontSize="sm"
-                colorScheme="pink"
+                colorScheme="green"
                 leftIcon={<Icon as={RiAddLine} fontSize="20" />}
               >
                 Criar novo
@@ -96,7 +96,7 @@ export default function User({ users }: UserProps) {
                 <Thead>
                   <Tr>
                     <Th paddingX={["4", "4", "6"]} color="gray.300" width="8">
-                      <Checkbox colorScheme="pink" />
+                      <Checkbox colorScheme="green" />
                     </Th>
                     <Th>Usuário</Th>
                     {isWideVersion && <Th>Data de cadastro</Th>}
@@ -107,7 +107,7 @@ export default function User({ users }: UserProps) {
                   {data.users.map((user) => (
                     <Tr key={user.id}>
                       <Td paddingX={["4", "4", "6"]}>
-                        <Checkbox colorScheme="pink" />
+                        <Checkbox colorScheme="green" />
                       </Td>
                       <Td>
                         <Box>
