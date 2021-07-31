@@ -9,7 +9,7 @@ export function Logo() {
       width="64"
     >
       dashgo
-      <Text as="span" marginLeft="1" color="pink.500">
+      <Text as="span" marginLeft="1" color="green.500">
         .
       </Text>
     </Text>
